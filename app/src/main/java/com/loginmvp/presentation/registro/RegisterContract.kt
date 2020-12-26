@@ -16,23 +16,24 @@
  *
  */
 
-package com.loginmvp.presentation.login
+package com.loginmvp.presentation.registro
 
-interface LoginContract {
-    interface LoginView {
-        fun showError(msgError: String)
-        fun showProgressDialog()
-        fun hideProgressDialog()
-        fun signIn()
+interface RegisterContract {
+    interface RegisterView{
         fun navigateToMain()
-        fun navigateToRegister()
+        fun signUp()
+        fun showProgress()
+        fun hideProgress()
+        fun showError(msgError: String)
     }
-
-    interface LoginPresenter {
-        fun attachView(view: LoginView)
-        fun detachView()
+    interface RegisterPresenter{
+        fun attachView(view: RegisterView)
         fun isViewAttached(): Boolean
-        fun signInUserWithEmailAndPassword(email: String, password: String)
-        fun checkEmptyFields(email: String, password: String) : Boolean
+        fun detachView()
+        fun checkEmptyNameAndEmail(fullname: String, email: String):Boolean
+        fun checkValidEmail(email: String)
+        fun checkEmptyPasswords(pw1: String, pw2: String): Boolean
+        fun checkPasswordsMatch(pw1: String, pw2: String): Boolean
+        fun signUp(fullname: String, email: String, password: String)
     }
 }

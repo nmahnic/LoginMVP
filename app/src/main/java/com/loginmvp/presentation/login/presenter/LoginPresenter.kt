@@ -1,11 +1,17 @@
 package com.loginmvp.presentation.login.presenter
 
 
+import com.loginmvp.domain.Interactor.Logininteractor.SingInInteractor
 import com.loginmvp.presentation.login.LoginContract
 
-class LoginPresenter() : LoginContract.LoginPresenter {
+class LoginPresenter(signInInteractor: SingInInteractor) : LoginContract.LoginPresenter {
 
+    var signInInteractor : SingInInteractor? = null
     var view: LoginContract.LoginView? = null
+
+    init {
+        this.signInInteractor = signInInteractor
+    }
 
     override fun attachView(view: LoginContract.LoginView) {
         // Como ambos objetos tienen el mismo nombre para hacer referenia al propio de la clase se
@@ -23,10 +29,22 @@ class LoginPresenter() : LoginContract.LoginPresenter {
     }
 
     override fun signInUserWithEmailAndPassword(email: String, password: String) {
-        //TODO("Not yet implemented")
         view?.showProgressDialog()
-        view?.showError("Hola desde el presenter")
-        // Llamar al interactor...
+        signInInteractor?.signInWithEmailAndPassword(email,password,object : SingInInteractor.SignInCallback{
+            override fun onSignInSuccess() {
+                if(isViewAttached()){
+                    view?.hideProgressDialog()
+                    view?.navigateToMain()
+                }
+            }
+
+            override fun onSignInFailure(errorMsg: String) {
+                if(isViewAttached()){
+                    view?.hideProgressDialog()
+                    view?.showError(errorMsg)
+                }
+            }
+        })
     }
 
     override fun checkEmptyFields(email: String, password: String) : Boolean{

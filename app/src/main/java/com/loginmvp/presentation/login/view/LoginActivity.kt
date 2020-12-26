@@ -1,15 +1,17 @@
 package com.loginmvp.presentation.login.view
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.loginmvp.R
 import com.loginmvp.base.BaseActivity
+import com.loginmvp.domain.Interactor.Logininteractor.SignInInteractorImpl
 import com.loginmvp.presentation.login.LoginContract
 import com.loginmvp.presentation.login.presenter.LoginPresenter
+import com.loginmvp.presentation.main.view.MainActivity
+import kotlinx.android.synthetic.main.activity_login.*
 
-
-import kotlinx.android.synthetic.main.activity_main.*
 
 class LoginActivity : BaseActivity() , LoginContract.LoginView {
 
@@ -18,7 +20,7 @@ class LoginActivity : BaseActivity() , LoginContract.LoginView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        presenter = LoginPresenter()
+        presenter = LoginPresenter(SignInInteractorImpl())
         presenter.attachView(this)
         btn_signIn.setOnClickListener{
             signIn()
@@ -26,7 +28,7 @@ class LoginActivity : BaseActivity() , LoginContract.LoginView {
     }
 
     override fun getLayout(): Int {
-        return R.layout.activity_main
+        return R.layout.activity_login
     }
 
     override fun showError(msgError: String) {
@@ -44,19 +46,18 @@ class LoginActivity : BaseActivity() , LoginContract.LoginView {
     override fun signIn() {
         val email = etxt_email.text.toString().trim()
         val password = etxt_password.text.toString().trim()
-        toast(this, "${email} ${password}")
+
         if(presenter.checkEmptyFields(email,password)) {
             toast(this, "Uno o ambos estan vacios")
-        }
-        else {
+        }else {
             presenter.signInUserWithEmailAndPassword(email, password)
         }
 
     }
 
     override fun navigateToMain() {
-        TODO("Not yet implemented")
-        //startActivity(Intent(this,MainActivity::class.java))
+        //TODO("Not yet implemented")
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     override fun navigateToRegister() {

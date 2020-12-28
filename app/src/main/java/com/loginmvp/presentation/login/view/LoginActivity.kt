@@ -28,6 +28,7 @@ import com.loginmvp.domain.Interactor.Logininteractor.SignInInteractorImpl
 import com.loginmvp.presentation.login.LoginContract
 import com.loginmvp.presentation.login.presenter.LoginPresenter
 import com.loginmvp.presentation.main.view.MainActivity
+import com.loginmvp.presentation.registro.view.RegisterActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 
@@ -81,8 +82,18 @@ class LoginActivity : BaseActivity() , LoginContract.LoginView {
     }
 
     override fun navigateToRegister() {
-        TODO("Not yet implemented")
-        //startActivity(Intent(this,RegisterActivity::class.java))
+        val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        presenter.detachView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
     }
 }
 

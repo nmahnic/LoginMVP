@@ -19,12 +19,28 @@
 package com.loginmvp.presentation.registro.view
 
 import android.content.Intent
+import android.os.Bundle
+import android.view.View
 import com.loginmvp.R
 import com.loginmvp.base.BaseActivity
 import com.loginmvp.presentation.main.view.MainActivity
+import com.loginmvp.presentation.registro.presenter.RegisterPresenter
 import com.loginmvp.presentation.registro.RegisterContract
+import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
+
+    lateinit var presenter : RegisterPresenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        presenter = RegisterPresenter()
+        presenter.attachView(this)
+        btn_signUp.setOnClickListener{
+            signUp()
+        }
+    }
 
     override fun getLayout(): Int {
         return R.layout.activity_register
@@ -36,18 +52,32 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
         startActivity(intent)
     }
     override fun signUp() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
+        showProgress()
+        showError("ENTRE")
     }
 
     override fun showProgress() {
-        TODO("Not yet implemented")
+        progressBar_signUp.visibility = View.VISIBLE
+        btn_signUp.visibility = View.GONE
     }
 
     override fun hideProgress() {
-        TODO("Not yet implemented")
+        progressBar_signUp.visibility = View.GONE
+        btn_signUp.visibility = View.VISIBLE
     }
 
     override fun showError(msgError: String) {
         toast(this,msgError)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        presenter.detachView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
     }
 }

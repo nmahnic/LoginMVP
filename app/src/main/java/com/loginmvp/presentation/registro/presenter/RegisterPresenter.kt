@@ -18,6 +18,7 @@
 
 package com.loginmvp.presentation.registro.presenter
 
+import androidx.core.util.PatternsCompat
 import com.loginmvp.presentation.registro.RegisterContract
 import com.loginmvp.presentation.registro.RegisterContract.RegisterView
 
@@ -32,19 +33,19 @@ class RegisterPresenter(): RegisterContract.RegisterPresenter{
     override fun isViewAttached(): Boolean { return view != null }
 
     override fun checkEmptyNameAndEmail(fullname: String, email: String): Boolean {
-        TODO("Not yet implemented")
+        return fullname.isEmpty() || email.isEmpty()
     }
 
-    override fun checkValidEmail(email: String) {
-        TODO("Not yet implemented")
+    override fun checkValidEmail(email: String): Boolean {
+        return PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     override fun checkEmptyPasswords(pw1: String, pw2: String): Boolean {
-        TODO("Not yet implemented")
+        return pw1.isEmpty() or pw2.isEmpty()
     }
 
     override fun checkPasswordsMatch(pw1: String, pw2: String): Boolean {
-        TODO("Not yet implemented")
+        return pw1 == pw2
     }
 
     override fun signUp(fullname: String, email: String, password: String) {

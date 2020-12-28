@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">LoginMVP</string>
     <string name="clean_firestore_login">CLEAN FIRESTORE LOGIN</string>
+    <string name="fullname">Fullname</string>
+    <string name="email">Email</string>
+    <string name="password_again">Password again</string>
+    <string name="singup">SING UP</string>
+    <string name="password">Password</string>
+    <string name="signin">SignIn</string>
 </resources>
